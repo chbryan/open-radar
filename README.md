@@ -232,7 +232,7 @@ Backend-only iteration (example):
 
 License
 -------
-GPLv3 (see LICENSE)
+GPL3
 
 Safety and Responsible Use
 --------------------------
