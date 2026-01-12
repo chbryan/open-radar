@@ -1,0 +1,51 @@
+# config/radar_demo.yaml
+# Demo config: zero-cost simulator enabled + optional public/authorized integrations.
+# This should work out-of-the-box for any user running docker compose.
+
+version: 1
+
+# How long an object can go without updates before changing status.
+# ACTIVE  -> last_seen <= active_seconds
+# STALE   -> active_seconds < last_seen <= offline_seconds
+# OFFLINE -> last_seen > offline_seconds
+status:
+  active_seconds: 30
+  offline_seconds: 300
+
+# If you use the authorized webhook ingest endpoint, set RADAR_WEBHOOK_SECRET in .env.
+webhook:
+  # The backend also reads RADAR_WEBHOOK_SECRET; this value is informational.
+  signature_header: "X-Radar-Signature"
+  algo: "hmac-sha256"
+
+# Adapters ingest positions into the system.
+# The SIM adapter is the default so anyone can run the project with no external services.
+adapters:
+  - type: sim
+    enabled: true
+    name: Simulator
+    # Starting center point (Chicago by default)
+    center_lat: 41.881
+    center_lon: -87.623
+    # How many objects to generate per domain
+    objects:
+      vessels: 6
+      transit: 10
+      trains: 4
+
+  # OPTIONAL: Public GTFS-Realtime VehiclePositions feed (transit/passenger rail where available)
+  # - type: gtfs_rt
+  #   enabled: false
+  #   name: Public GTFS-RT
+  #   agency_id: "agency"
+  #   domain: "TRANSIT"   # or TRAIN if you have a passenger rail GTFS-RT feed
+  #   vehicle_positions_url: "https://example.com/vehiclepositions.pb"
+  #   poll_seconds: 15
+
+  # OPTIONAL: AIS websocket adapter (only if you have a lawful websocket source + token)
+  # - type: ais_ws
+  #   enabled: false
+  #   name: AIS WS
+  #   url_env: "AISSTREAM_URL"
+  #   api_key_env: "AISSTREAM_API_KEY"
+
