@@ -1,0 +1,7 @@
+adapters:
+  - type: sim
+    enabled: true
+military_osint:
+  enabled: true
+  poll_interval_seconds: 300
+  source: "OSINT API (e.g., EOS Satellite API)"
